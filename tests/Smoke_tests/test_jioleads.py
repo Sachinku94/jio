@@ -22,6 +22,6 @@ class Testone(BaseClass):
         
         carlead=QuotePage(self.driver)
         carlead.motor()
-    def test_healthlead(self):
+    def test_healthleadprequote(self):
         healthlead=QuotePage(self.driver)
         healthlead.health()

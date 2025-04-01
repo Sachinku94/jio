@@ -25,6 +25,21 @@ def setup(request):
 
     # Open the base URL in the browser
     driver.get(base_url)
+    def remove_popup():
+        """Wait for the pop-up and remove it if it appears."""
+        try:
+            wait = WebDriverWait(driver, 5)  # Adjust timeout as needed
+            popup = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "MuiDialogContent-root")))
+            
+            # Completely remove the pop-up from the DOM
+            driver.execute_script("arguments[0].remove();", popup)
+            print("Pop-up removed, continuing flow!")
+
+        except:
+            print("No pop-up found, proceeding.")
+
+    # Remove the pop-up before continuing to the next page
+    remove_popup()
 
     # Attach the driver to the test class (so tests can access it)
     request.cls.driver = driver

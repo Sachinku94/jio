@@ -84,58 +84,83 @@ class QuotePage(BaseClass):
                         button="button#Get\ free\ quotes"
                         buttonquo=self.driver.find_element(By.CSS_SELECTOR,button)
                         buttonquo.click()
+                        time.sleep(5)
+                        self.driver.refresh()
                         checkbox=By.CSS_SELECTOR,".css-j8yymo"
                         selectcheck=wait.until(EC.presence_of_all_elements_located(checkbox))
                         ra_slcheck=random.choice(selectcheck)
                         value=ra_slcheck.get_attribute("id")
-                        if value=="Two Adults":
-                         
-                               
-                         ra_slcheck.click()
-                         time.sleep(5)
-                        
-                         
+                        while True:
+                            if value=="Two Adults":
+                            
+                                
+                                ra_slcheck.click()
+                                time.sleep(5)
+                                
+                                
 
-                         cont="#Continue"
-                         conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
-                         conti.click()
-                         time.sleep(5)
-                        
-                        #  if value=="two Adult":
-                        #       id_adult="1st Adult Age-autocomplete"
-                        #       age=self.driver.find_elements(By.ID,id_adult)
-                        #       age.click()
-                        #       ages=By.ID," Adult Age-autocomplete-listbox"
-                        #       listage=wait.until(EC.visibility_of_all_elements_located(ages))
-                        #       options = self.driver.find_elements(By.CSS_SELECTOR,"[role='option']")  # You can adjust this selector as per your DOM
+                                cont="#Continue"
+                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
+                                conti.click()
+                                time.sleep(5)
+                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
+                                relation=wait.until(EC.visibility_of_all_elements_located(rel))
+                                for rell in relation:
+                                    time.sleep(5)
+                                    rell.click()
+                                    all_option =By.CSS_SELECTOR,".css-17glcv2 li"
+                                    all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
+                                    sel=random.choice(all_inoption)
+                                    sel.click()
+                                    time.sleep(5)
 
-                        #         # Step 4: Choose a random option from the list
-                        #       random_option = random.choice(options)
 
-                        #         # Step 5: Click the random option
-                        #       random_option.click()
-                        elif value=="One Adult":
-                              
-                         cont="#Continue"
-                         conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
-                         conti.click()
-                        
-                         if value=="one Adult":
-                              id_adult="1st Adult Age-autocomplete"
-                              age=self.driver.find_elements(By.ID,id_adult)
-                              age.click()
-                              ages=By.ID," Adult Age-autocomplete-listbox"
-                              listage=wait.until(EC.visibility_of_all_elements_located(ages))
-                              options = self.driver.find_elements(By.CSS_SELECTOR,"[role='option']")  # You can adjust this selector as per your DOM
 
-                                # Step 4: Choose a random option from the list
-                              random_option = random.choice(options)
+                                
+                                #  if value=="two Adult":
+                                #       id_adult="1st Adult Age-autocomplete"
+                                #       age=self.driver.find_elements(By.ID,id_adult)
+                                #       age.click()
+                                #       ages=By.ID," Adult Age-autocomplete-listbox"
+                                #       listage=wait.until(EC.visibility_of_all_elements_located(ages))
+                                #       options = self.driver.find_elements(By.CSS_SELECTOR,"[role='option']")  # You can adjust this selector as per your DOM
 
-                                # Step 5: Click the random option
-                              random_option.click()
-                              
+                                #         # Step 4: Choose a random option from the list
+                                #       random_option = random.choice(options)
 
-                        else:
-                              continue
+                                #         # Step 5: Click the random option
+                                #       random_option.click()
+                            elif value=="One Adult":
+                                time.sleep(5)
+                                    
+                                cont="#Continue"
+                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
+                                conti.click()
+
+                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
+                                relation=wait.until(EC.visibility_of_element_located(rel))
+                                relation.click()
+
+                                all_option =By.CSS_SELECTOR,".css-17glcv2 li"
+                                all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
+                                sel=random.choice(all_inoption)
+                                sel.click()  
+
+                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
+                                qutbut.click()
+                                time.sleep(10)
+                                quotetions=By.CSS_SELECTOR,".css-14kjlot"
+                                all_quote=wait.until(EC.visibility_of_all_elements_located(quotetions))
+                                for al in all_quote:
+                                    assert al.is_displayed()
+                                log.info("prequote pass")
+                                self.driver.quit()              
+                            
+                            
+                            
+                                
+
+                            else:
+                                continue
 
 
