@@ -233,3 +233,26 @@ class SeleniumHelper:
         """,
             element,
         )
+
+    def remove_popup(self):
+        """Checks for the pop-up periodically and removes it."""
+        while True:
+            try:
+                modal = self.driver.find_element(By.CSS_SELECTOR, ".modal-scrollable .MuiPaper-root .modal-content.xsWidth")
+                if modal:
+                    print("Pop-up detected, closing it.")
+                    close_button = modal.find_element(By.CSS_SELECTOR, ".MuiPaper-root .modal-content .closePopup")
+                    close_button.click()
+                    print("Pop-up closed.")
+            except NoSuchElementException:
+                pass
+            print("Scheduled JavaScript pop-ups are cleared.")
+    #     """Wait for the pop-up and remove it if it appears."""
+    #     try:
+    #         self.driver.execute_script("""
+    #     window.alert = function() {};  // Disables alert pop-ups
+    #     window.confirm = function() { return true; };  // Disables confirm pop-ups
+    #     window.prompt = function() { return ''; };  // Disables prompt pop-ups
+    # """)
+    #     except:
+    #         print("No pop-up found, proceeding.")

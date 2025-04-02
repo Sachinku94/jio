@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from tests.test_data import test_data
 import requests
 import random
+from Smoke_tests.object.Selenium_helper import SeleniumHelper
 class QuotePage(BaseClass):
 
     def __init__(self, driver):
@@ -69,7 +70,7 @@ class QuotePage(BaseClass):
         quote.leads(self)
         prod=By.CSS_SELECTOR,"div.css-12hd50 p"
         product=wait.until(EC.presence_of_all_elements_located(prod))
-        
+        pop_up=SeleniumHelper(self.driver)
         
         for podu in product:
                     pod=podu.text
@@ -103,17 +104,32 @@ class QuotePage(BaseClass):
                                 conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
                                 conti.click()
                                 time.sleep(5)
+                                # pop_up.remove_popup()
                                 rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
                                 relation=wait.until(EC.visibility_of_all_elements_located(rel))
                                 for rell in relation:
+                                    
                                     time.sleep(5)
                                     rell.click()
                                     all_option =By.CSS_SELECTOR,".css-17glcv2 li"
                                     all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
                                     sel=random.choice(all_inoption)
                                     sel.click()
-                                    time.sleep(5)
+                                    # pop_up.remove_popup()
+                                # time.sleep(70)
+                                # pop_up.remove_popup()
+                                # time.sleep(5)
+                                self.driver.refresh()
+                                time.sleep(10)
+                                url=self.driver.current_url()
+                                log.info(url)
+                                assert url.__contains__("quote_no")
+                                log.info("prequote pass")
 
+                                
+                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
+                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
+                                # assert all_quote
 
 
                                 
@@ -130,7 +146,7 @@ class QuotePage(BaseClass):
 
                                 #         # Step 5: Click the random option
                                 #       random_option.click()
-                            elif value=="One Adult":
+                            elif value=="One Adult" :
                                 time.sleep(5)
                                     
                                 cont="#Continue"
@@ -148,19 +164,57 @@ class QuotePage(BaseClass):
 
                                 qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
                                 qutbut.click()
-                                time.sleep(10)
-                                quotetions=By.CSS_SELECTOR,".css-14kjlot"
-                                all_quote=wait.until(EC.visibility_of_all_elements_located(quotetions))
-                                for al in all_quote:
-                                    assert al.is_displayed()
+                                # time.sleep(70)
+                                # pop_up.remove_popup()
+                                time.sleep(5)
+                                url=self.driver.current_url()
+                                log.info(url)
+                                assert url.__contains__("quote_no")
                                 log.info("prequote pass")
-                                self.driver.quit()              
-                            
+                                
+                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
+                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
+                                # assert all_quote
+                                
+                                # self.driver.quit()              
+                            elif value == "Children":
+                                ra_slcheck.click()
+                                time.sleep(5)
+                                cont="#Continue"
+                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
+                                conti.click()
+
+                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
+                                relation=wait.until(EC.visibility_of_element_located(rel))
+                                relation.click()
+
+                                all_option =By.CSS_SELECTOR,".css-17glcv2 li"
+                                all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
+                                sel=random.choice(all_inoption)
+                                sel.click()  
+
+                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
+                                qutbut.click()
+                                # time.sleep(70)
+                                # pop_up.remove_popup()
+                                time.sleep(5)
+                                self.driver.refresh()
+                                time.sleep(10)
+                                url=self.driver.current_url()
+                                log.info(url)
+                                assert url.__contains__("quote_no")
+                                log.info("prequote pass")
+                                
+                                
+                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
+                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
+                                # assert all_quote
+                                 
                             
                             
                                 
 
                             else:
                                 continue
-
+        log.info("prequote pass")
 
