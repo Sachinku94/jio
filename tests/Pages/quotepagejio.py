@@ -74,7 +74,8 @@ class QuotePage(BaseClass):
         
         for podu in product:
                     pod=podu.text
-                    if pod=="Health":   
+                    if pod=="Health": 
+                          
                         podu.click()             
                         mobilin="Enter mobile number"
                         vehin=self.driver.find_element(By.ID,mobilin)
@@ -91,15 +92,12 @@ class QuotePage(BaseClass):
                         selectcheck=wait.until(EC.presence_of_all_elements_located(checkbox))
                         ra_slcheck=random.choice(selectcheck)
                         value=ra_slcheck.get_attribute("id")
-                        while True:
-                            if value=="Two Adults":
+                        
+                        if value=="Two Adults":
                             
-                                
                                 ra_slcheck.click()
                                 time.sleep(5)
                                 
-                                
-
                                 cont="#Continue"
                                 conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
                                 conti.click()
@@ -119,13 +117,15 @@ class QuotePage(BaseClass):
                                 # time.sleep(70)
                                 # pop_up.remove_popup()
                                 # time.sleep(5)
-                                self.driver.refresh()
+                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
+                                qutbut.click()
+                                # self.driver.refresh()
                                 time.sleep(10)
-                                url=self.driver.current_url()
+                                url=self.driver.current_url
                                 log.info(url)
-                                assert url.__contains__("quote_no")
-                                log.info("prequote pass")
-
+                                assert "quote_no" in url
+                                
+                            
                                 
                                 # quotetions=By.CSS_SELECTOR,".css-14kjlot"
                                 # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
@@ -146,7 +146,8 @@ class QuotePage(BaseClass):
 
                                 #         # Step 5: Click the random option
                                 #       random_option.click()
-                            elif value=="One Adult" :
+                                
+                        elif value=="One Adult" :
                                 time.sleep(5)
                                     
                                 cont="#Continue"
@@ -167,9 +168,9 @@ class QuotePage(BaseClass):
                                 # time.sleep(70)
                                 # pop_up.remove_popup()
                                 time.sleep(5)
-                                url=self.driver.current_url()
+                                url=self.driver.current_url
                                 log.info(url)
-                                assert url.__contains__("quote_no")
+                                assert "quote_no" in url
                                 log.info("prequote pass")
                                 
                                 # quotetions=By.CSS_SELECTOR,".css-14kjlot"
@@ -177,7 +178,7 @@ class QuotePage(BaseClass):
                                 # assert all_quote
                                 
                                 # self.driver.quit()              
-                            elif value == "Children":
+                        elif value == "Children":
                                 ra_slcheck.click()
                                 time.sleep(5)
                                 cont="#Continue"
@@ -200,10 +201,11 @@ class QuotePage(BaseClass):
                                 time.sleep(5)
                                 self.driver.refresh()
                                 time.sleep(10)
-                                url=self.driver.current_url()
+                                url=self.driver.current_url
                                 log.info(url)
-                                assert url.__contains__("quote_no")
+                                assert "quote_no" in url
                                 log.info("prequote pass")
+
                                 
                                 
                                 # quotetions=By.CSS_SELECTOR,".css-14kjlot"
@@ -212,9 +214,14 @@ class QuotePage(BaseClass):
                                  
                             
                             
-                                
-
-                            else:
-                                continue
+                        break            
+                    else:
+                          continue
+                        
+                           
+                    
+                                       
+                    
+                
         log.info("prequote pass")
 
