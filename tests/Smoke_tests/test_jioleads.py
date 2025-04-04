@@ -11,7 +11,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import requests
 import time
 import pytest
-from Pages.quotepagejio import QuotePage
+from tests.Pages.prequotepagejio import QuotePage
+from tests.Pages.postquotepage import postQuotePage
 from object.Selenium_helper import SeleniumHelper
 import asyncio
 
@@ -25,3 +26,6 @@ class Testone(BaseClass):
     def test_healthleadprequote(self):
         healthlead=QuotePage(self.driver)
         healthlead.health()
+    def test_healtleadpremium(self):
+        healthpost=postQuotePage(self.driver)
+        healthpost.healthpostquote()

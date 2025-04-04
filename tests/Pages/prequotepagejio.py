@@ -40,7 +40,7 @@ class QuotePage(BaseClass):
                         buttonquo.click()
                         time.sleep(5)
 
-                        br=By.ID,"#make"
+                        br=By.ID,"make"
                         brands=wait.until(EC.visibility_of_all_elements_located(br))
                         
                         
@@ -53,7 +53,7 @@ class QuotePage(BaseClass):
                         
                         
                             
-                        vars=By.ID,"#model"
+                        vars=By.ID,"model"
                         varints=wait.until(EC.visibility_of_all_elements_located(vars)) 
                         
                         if varints:
@@ -61,7 +61,22 @@ class QuotePage(BaseClass):
                                 ra_vr.click()
                                 time.sleep(9)
                                 log.info("trupass")
-    def health(self):
+                        
+                        radio=By.CSS_SELECTOR,".preQuoteFormBox Input"
+                        radio_btn=wait.until(EC.visibility_of_all_elements_located(radio))
+                        if radio_btn:
+                              rad_bt=random.choice(radio_btn)
+                              rad_bt.click()
+                        var_cc=By.ID,"variant_cc"
+                        varints_cc=wait.until(EC.visibility_of_element_located(var_cc))
+                        varints_cc.click()
+                        var_choices=By.CSS_SELECTOR,"css-djn3hl"
+                        var_allchoices=wait.until(EC.presence_of_all_elements_located(var_choices))
+                        if var_allchoices:
+                              var_ch=random.choice(var_allchoices)
+                              var_ch.click()
+                              
+    def healthprequote(self):
           
         log=self.getLogger()
         Ac = ActionChains(self.driver)
@@ -132,20 +147,7 @@ class QuotePage(BaseClass):
                                 # assert all_quote
 
 
-                                
-                                #  if value=="two Adult":
-                                #       id_adult="1st Adult Age-autocomplete"
-                                #       age=self.driver.find_elements(By.ID,id_adult)
-                                #       age.click()
-                                #       ages=By.ID," Adult Age-autocomplete-listbox"
-                                #       listage=wait.until(EC.visibility_of_all_elements_located(ages))
-                                #       options = self.driver.find_elements(By.CSS_SELECTOR,"[role='option']")  # You can adjust this selector as per your DOM
-
-                                #         # Step 4: Choose a random option from the list
-                                #       random_option = random.choice(options)
-
-                                #         # Step 5: Click the random option
-                                #       random_option.click()
+                               
                                 
                         elif value=="One Adult" :
                                 time.sleep(5)
