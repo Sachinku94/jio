@@ -29,8 +29,11 @@ def setup(request):
 
     # Open the base URL in the browser
     driver.get(base_url)
+    wait = WebDriverWait(driver, 20)
     
-
+    pop_up=By.CSS_SELECTOR,".modal-scrollable .MuiPaper-root .modal-content .closePopup"
+    close=wait.until(EC.presence_of_element_located(pop_up))
+    close.click()
     # Remove the pop-up before continuing to the next page
     # pop_up.remove_popup()=SeleniumHelper.remove_popup
     # pop_up.remove_popup()

@@ -11,21 +11,15 @@ from selenium.webdriver.support import expected_conditions as EC
 import requests
 import time
 import pytest
-from tests.Pages.prequotepagejio import QuotePage
-from tests.Pages.postquotepage import postQuotePage
+from Pages.homepagejio import HomePage
 from object.Selenium_helper import SeleniumHelper
 import asyncio
-
+from tests.Pages.utm_jio import UTM_Page
 
 class Testone(BaseClass):
 
-    def test_diffjioleadscar(self):
-        
-        carlead=QuotePage(self.driver)
-        carlead.motor()
-    def test_healthleadprequote(self):
-        healthlead=QuotePage(self.driver)
-        healthlead.health_prequote()
-    def test_healtleadpremium(self):
-        healthpost=postQuotePage(self.driver)
-        healthpost.healthpostquote()
+    def utm_positive(self):
+        log = self.getLogger()
+        utmP=UTM_Page(self.driver)
+        utmP.Utm_direct()
+        log.info("utm_pass")

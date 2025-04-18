@@ -19,3 +19,4 @@ class postQuotePage(BaseClass):
     def healthpostquote(self):
         postquote=prequotepagejio.QuotePage
         postquote.healthprequote(self)
+    

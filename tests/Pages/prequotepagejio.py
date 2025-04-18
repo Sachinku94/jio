@@ -10,10 +10,15 @@ from tests.test_data import test_data
 import requests
 import random
 from Smoke_tests.object.Selenium_helper import SeleniumHelper
+import threading
 class QuotePage(BaseClass):
 
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(self.driver, 20)
+        self.ac = ActionChains(self.driver)
+        self.log = self.getLogger()
+
     def motor(self):
         log=self.getLogger()
         Ac = ActionChains(self.driver)
@@ -76,154 +81,66 @@ class QuotePage(BaseClass):
                               var_ch=random.choice(var_allchoices)
                               var_ch.click()
                               
-    def healthprequote(self):
-          
-        log=self.getLogger()
-        Ac = ActionChains(self.driver)
-        wait = WebDriverWait(self.driver, 20)
-        quote=homepagejio.HomePage
-        quote.leads(self)
-        prod=By.CSS_SELECTOR,"div.css-12hd50 p"
-        product=wait.until(EC.presence_of_all_elements_located(prod))
-        pop_up=SeleniumHelper(self.driver)
-        
-        for podu in product:
-                    pod=podu.text
-                    if pod=="Health": 
-                          
-                        podu.click()             
-                        mobilin="Enter mobile number"
-                        vehin=self.driver.find_element(By.ID,mobilin)
-                        vehin.send_keys("7894566623")
-                        pincode="Enter your pincode"
-                        mobin=self.driver.find_element(By.ID,pincode)
-                        mobin.send_keys("7017889834")
-                        button="button#Get\ free\ quotes"
-                        buttonquo=self.driver.find_element(By.CSS_SELECTOR,button)
-                        buttonquo.click()
-                        time.sleep(5)
-                        self.driver.refresh()
-                        checkbox=By.CSS_SELECTOR,".css-j8yymo"
-                        selectcheck=wait.until(EC.presence_of_all_elements_located(checkbox))
-                        ra_slcheck=random.choice(selectcheck)
-                        value=ra_slcheck.get_attribute("id")
-                        
-                        if value=="Two Adults":
-                            
-                                ra_slcheck.click()
-                                time.sleep(5)
-                                
-                                cont="#Continue"
-                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
-                                conti.click()
-                                time.sleep(5)
-                                # pop_up.remove_popup()
-                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
-                                relation=wait.until(EC.visibility_of_all_elements_located(rel))
-                                for rell in relation:
-                                    
-                                    time.sleep(5)
-                                    rell.click()
-                                    all_option =By.CSS_SELECTOR,".css-17glcv2 li"
-                                    all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
-                                    sel=random.choice(all_inoption)
-                                    sel.click()
-                                    # pop_up.remove_popup()
-                                # time.sleep(70)
-                                # pop_up.remove_popup()
-                                # time.sleep(5)
-                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
-                                qutbut.click()
-                                # self.driver.refresh()
-                                time.sleep(10)
-                                url=self.driver.current_url
-                                log.info(url)
-                                assert "quote_no" in url
-                                
-                            
-                                
-                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
-                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
-                                # assert all_quote
+    def health_prequote(self):
+        def handle_relations():
+            
+            try:
+                relations = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input")))
+                for rel in relations:
+                    rel.click()
+                    options = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".css-17glcv2 li")))
+                    random.choice(options).click()
+                    time.sleep(1)
+            except Exception as e:
+                self.log.error(f"Error selecting relations: {e}")
+        drop_down=By.CSS_SELECTOR,".css-t1oczc"
+        dropc=self.wait.until(EC.presence_of_element_located(drop_down))
+        dropc.click()
+        try:
+            # Select "Health" product
+            products = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.css-12hd50 p")))
+            for product in products:
+                if product.text == "Health":
+                    product.click()
+                    break
 
+            # Generate random phone number and pincode
+            phone_number = "78945" + str(random.randint(10000, 99999))
+            pincode = str(random.choice(["110001", "400001", "700001", "560001"]))
 
-                               
-                                
-                        elif value=="One Adult" :
-                                time.sleep(5)
-                                    
-                                cont="#Continue"
-                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
-                                conti.click()
+            # Fill mobile and pincode
+            self.driver.find_element(By.ID, "Enter mobile number").send_keys(phone_number)
+            self.driver.find_element(By.ID, "Enter your pincode").send_keys(pincode)
+            self.driver.find_element(By.CSS_SELECTOR, "button#Get\\ free\\ quotes").click()
+            time.sleep(5)
 
-                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
-                                relation=wait.until(EC.visibility_of_element_located(rel))
-                                relation.click()
+            # Choose family composition
+            checkboxes = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".css-j8yymo")))
+            selected = random.choice(checkboxes)
+            value = selected.get_attribute("id")
+            selected.click()
+            time.sleep(3)
 
-                                all_option =By.CSS_SELECTOR,".css-17glcv2 li"
-                                all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
-                                sel=random.choice(all_inoption)
-                                sel.click()  
+            # Continue button
+            self.driver.find_element(By.CSS_SELECTOR, "#Continue").click()
+            time.sleep(3)
 
-                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
-                                qutbut.click()
-                                # time.sleep(70)
-                                # pop_up.remove_popup()
-                                time.sleep(5)
-                                url=self.driver.current_url
-                                log.info(url)
-                                assert "quote_no" in url
-                                log.info("prequote pass")
-                                
-                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
-                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
-                                # assert all_quote
-                                
-                                # self.driver.quit()              
-                        elif value == "Children":
-                                ra_slcheck.click()
-                                time.sleep(5)
-                                cont="#Continue"
-                                conti=self.driver.find_element(By.CSS_SELECTOR,cont) 
-                                conti.click()
+            # Start relation selection in thread
+            thread = threading.Thread(target=handle_relations)
+            thread.start()
+            thread.join()
 
-                                rel=By.CSS_SELECTOR,".css-43hhca .MuiAutocomplete-inputRoot .MuiAutocomplete-input"
-                                relation=wait.until(EC.visibility_of_element_located(rel))
-                                relation.click()
+            # Click quote button
+            self.driver.find_element(By.CSS_SELECTOR, ".primaryBtns .MuiButton-root").click()
+            time.sleep(10)
 
-                                all_option =By.CSS_SELECTOR,".css-17glcv2 li"
-                                all_inoption=wait.until(EC.presence_of_all_elements_located(all_option))
-                                sel=random.choice(all_inoption)
-                                sel.click()  
+            # Validate quote URL
+            current_url = self.driver.current_url
+            self.log.info(current_url)
+            assert "quote_no" in current_url
+            self.log.info("Health prequote successful")
 
-                                qutbut=self.driver.find_element(By.CSS_SELECTOR,".primaryBtns .MuiButton-root")
-                                qutbut.click()
-                                # time.sleep(70)
-                                # pop_up.remove_popup()
-                                time.sleep(5)
-                                self.driver.refresh()
-                                time.sleep(10)
-                                url=self.driver.current_url
-                                log.info(url)
-                                assert "quote_no" in url
-                                log.info("prequote pass")
-
-                                
-                                
-                                # quotetions=By.CSS_SELECTOR,".css-14kjlot"
-                                # all_quote=wait.until(EC.visibility_of_any_elements_located(quotetions))
-                                # assert all_quote
-                                 
-                            
-                            
-                        break            
-                    else:
-                          continue
-                        
-                           
-                    
-                                       
-                    
-                
-        log.info("prequote pass")
+        except Exception as e:
+            self.log.error(f"Health quote failed: {e}")
+            self.log.info(f"Current URL: {self.driver.current_url}")
 
