@@ -18,7 +18,7 @@ from tests.Pages.utm_jio import UTM_Page
 
 class Testone(BaseClass):
 
-    def utm_positive(self):
+    def test_utmpositive(self):
         log = self.getLogger()
         utmP=UTM_Page(self.driver)
         utmP.Utm_direct()

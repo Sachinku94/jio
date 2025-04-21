@@ -18,17 +18,19 @@ class UTM_Page(BaseClass):
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 20)
+        self.log = self.getLogger()
 
     def Utm_direct(self):
         url_utm=test_data.utm_links
         for utm_li in url_utm:
             self.driver.get(utm_li)
-            if "google" in url_utm:
+            current_url=self.driver.current_url
+            if "google" in current_url:
                 search=By.CSS_SELECTOR,"div>textarea.gLFyf"
                 ser=self.wait.until(EC.presence_of_element_located(search))
                 ser.send_keys("policy bazzar"+Keys.ENTER)
-                time.sleep(10)
-                sponsored=".fP1Qef"
+                time.sleep(30)
+                sponsored=By.CSS_SELECTOR,".fP1Qef"
                 all_sponsored=self.wait.until(EC.presence_of_all_elements_located(sponsored))
                 for all_s in all_sponsored:
                     s_text=all_s.text
@@ -36,6 +38,7 @@ class UTM_Page(BaseClass):
                         links=all_s.find_elements(By.TAG_NAME,"a")
                         for link in links:
                             li =link.get_attribute('href')
-                            assert all(param in li for param in ["gbraid", "gad_source", "pb_campaign", "pb_term"])
-
+                            self.log.info("li")
+                            assert all(param in li for param in ["utm_source", "utm_medium", "utm_campaign", "utm_term"])
+    
                 
