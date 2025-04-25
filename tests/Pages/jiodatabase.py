@@ -21,6 +21,7 @@ conn = pymysql.connect(
 cursor = conn.cursor()
 cursor.execute("SELECT * FROM development.term_all_leads where mobile='9845985498';")
 result=cursor.fetchone()[1]
+assert result == "JI1335062290"
 print(result)
 print("MySQL version:", result )
 conn.close()

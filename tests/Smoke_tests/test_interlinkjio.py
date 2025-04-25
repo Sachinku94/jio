@@ -12,6 +12,7 @@ import requests
 import time
 import pytest
 from Pages.homepagejio import HomePage
+from Pages.allcononical import cononical
 from object.Selenium_helper import SeleniumHelper
 import asyncio
 
@@ -24,3 +25,6 @@ class Testone(BaseClass):
         Homepage.inter_link()
         
         log.info("inter_link working fine")
+    def test_colincal(self):
+        conon=cononical(self.driver)
+        conon.allcononical()
