@@ -256,3 +256,104 @@ class SeleniumHelper:
     # """)
     #     except:
     #         print("No pop-up found, proceeding.")
+
+    def calander_picker(self, dob):
+        """
+        Improved function to select the date from the calendar.
+        """
+        # Split the dob into day, month, year
+        month_map = {
+            "January": 1,
+            "February": 2,
+            "March": 3,
+            "April": 4,
+            "May": 5,
+            "June": 6,
+            "July": 7,
+            "August": 8,
+            "September": 9,
+            "October": 10,
+            "November": 11,
+            "December": 12
+        }
+        
+        day, month, year = dob.split('-')
+
+        # Find and click the calendar input field
+        calendar_field = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".evInputField .MuiInputBase-root .MuiIconButton-root")))
+        calendar_field.click()
+
+        # Explicit wait for the calendar to open
+        self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".css-1v994a0")))
+
+        # Navigate to the correct year
+        current_month_year = self.driver.find_element(By.CSS_SELECTOR, ".css-1v994a0")
+        current_month, current_year = current_month_year.text.split()
+
+        # Open the year dropdown
+        year_select_button = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".css-1wjkg3")))
+        year_select_button.click()
+
+        # Wait for the year dropdown to load
+        year_elements = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".css-rhiqj0")))
+
+        # Select the year from the dropdown
+        for ye in year_elements:
+            if ye.text == year:
+                ye.click()
+                break
+        self.log.info("yer")
+        time.sleep(4)
+        # Wait for the calendar to update with the selected year
+        while current_month != month or current_year != year:
+            # Update the current displayed month and year
+            
+
+                # Navigate to the correct month using next/previous buttons
+                current_month_year = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".css-1v994a0")))
+                current_month, current_year = current_month_year.text.split()
+                self.log.info("done int")
+                
+                # Convert the month name to an integer using the month_map dictionary
+                current_month_int = month_map[current_month]
+                self.log.info("donemap")
+                target_month_int = int(month)
+                self.log.info(current_month_int)
+                self.log.info(target_month_int)
+                # Check if the current month is less than the target month or if the current year is less than the target year
+                if current_month_int < target_month_int:
+                    # Click "Next" month button
+                    next_month_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".css-1fklenr")))
+                    next_month_button.click()
+                    self.log.info('done')
+                elif current_month > target_month_int:
+                    # Click "Previous" month button
+                    prev_month_button = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".css-11wxb")))
+                    prev_month_button.click()
+                    self.log.info("predone")
+                
+                # Wait for the calendar to update
+                time.sleep(1)
+
+                # Update the current month and year again after clicking
+                current_month_year = self.driver.find_element(By.CSS_SELECTOR, ".css-1v994a0")
+                current_month, current_year = current_month_year.text.split()
+
+                # Convert again to int after the update
+                current_month_int = month_map[current_month]
+
+                # If current month matches the target month, break the loop
+                if current_month_int == target_month_int:
+                    break
+
+        # Wait for the days to be visible
+        days = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".css-a78wou")))
+
+        # Select the specific day
+        for alday in days:
+            if alday.text.strip() == day:
+                alday.click()
+                break
+
+        # Explicit delay before returning (optional, in case you need to wait for the UI to update)
+        time.sleep(2)
