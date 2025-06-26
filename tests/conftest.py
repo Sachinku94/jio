@@ -12,7 +12,7 @@ from Smoke_tests.object.Selenium_helper import SeleniumHelper
 @pytest.fixture(scope="class")
 def setup(request):
     # Read base URL from config
-    CHROMEDRIVER_VERSION = "134.0.6998.166"
+    CHROMEDRIVER_VERSION = "137.0.7151.120"
     path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
     base_url = read_config("URL", "base_url")
 
@@ -29,11 +29,11 @@ def setup(request):
 
     # Open the base URL in the browser
     driver.get(base_url)
-    wait = WebDriverWait(driver, 20)
+    # wait = WebDriverWait(driver, 90)
     
-    pop_up=By.CSS_SELECTOR,".modal-scrollable .MuiPaper-root .modal-content .closePopup"
-    close=wait.until(EC.presence_of_element_located(pop_up))
-    close.click()
+    # pop_up=By.CSS_SELECTOR,".modal-scrollable .MuiPaper-root .modal-content .closePopup"
+    # close=wait.until(EC.presence_of_element_located(pop_up))
+    # close.click()
     # Remove the pop-up before continuing to the next page
     # pop_up.remove_popup()=SeleniumHelper.remove_popup
     # pop_up.remove_popup()

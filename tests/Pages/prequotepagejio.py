@@ -20,66 +20,71 @@ class QuotePage(BaseClass):
         self.log = self.getLogger()
 
     def motor(self):
-        log=self.getLogger()
-        Ac = ActionChains(self.driver)
-        wait = WebDriverWait(self.driver, 20)
-        quote=homepagejio.HomePage
-        quote.leads(self)
-        prod=By.CSS_SELECTOR,"div.css-12hd50 p"
-        product=wait.until(EC.presence_of_all_elements_located(prod))
+
+    
         
         
-        for podu in product:
-                    pod=podu.text
-                    if pod=="Car":
-                    
 
-                        vehino="Enter car registration number"
-                        vehin=self.driver.find_element(By.ID,vehino)
-                        vehin.send_keys("MH01WG7452")
-                        mobino="Enter mobile number"
-                        mobin=self.driver.find_element(By.ID,mobino)
-                        mobin.send_keys("7894566623")
-                        button="button#Get\ free\ quotes"
-                        buttonquo=self.driver.find_element(By.CSS_SELECTOR,button)
-                        buttonquo.click()
-                        time.sleep(5)
+        
+        
+        drop_down=By.CSS_SELECTOR,".css-t1oczc"
+        dropc=self.wait.until(EC.presence_of_element_located(drop_down))
+        dropc.click()
+        products = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.css-12hd50 p")))
+        for product in products:
+                if product.text == "Car":
+                    product.click()
+                    break
+        vehino="Enter car registration number"
+        vehin=self.driver.find_element(By.ID,vehino)
+        vehin.send_keys("MH01WG7452")
+        mobino="Enter mobile number"
+        mobin=self.driver.find_element(By.ID,mobino)
+        mobin.send_keys("7894566623")
+        button="button#Get\ free\ quotes"
+        buttonquo=self.driver.find_element(By.CSS_SELECTOR,button)
+        buttonquo.click()
+        time.sleep(5)
 
-                        br=By.ID,"make"
-                        brands=wait.until(EC.visibility_of_all_elements_located(br))
+        br=By.ID,"make"
+        brands=self.wait.until(EC.visibility_of_all_elements_located(br))
                         
                         
-                        if brands:
-                            time.sleep(4)
+        if brands:
+         time.sleep(4)
                         
-                            ra_br=random.choice(brands)
-                            ra_br.click()
-                        time.sleep(5)
+         ra_br=random.choice(brands)
+         ra_br.click()
+         time.sleep(5)
                         
                         
                             
-                        vars=By.ID,"model"
-                        varints=wait.until(EC.visibility_of_all_elements_located(vars)) 
+        vars=By.ID,"model"
+        varints=self.wait.until(EC.visibility_of_all_elements_located(vars)) 
                         
-                        if varints:
-                                ra_vr=random.choice(varints)
-                                ra_vr.click()
-                                time.sleep(9)
-                                log.info("trupass")
+        if varints:
+            ra_vr=random.choice(varints)
+            ra_vr.click()
+            time.sleep(9)
+            self.log.info("trupass")                                                                                
                         
-                        radio=By.CSS_SELECTOR,".preQuoteFormBox Input"
-                        radio_btn=wait.until(EC.visibility_of_all_elements_located(radio))
-                        if radio_btn:
-                              rad_bt=random.choice(radio_btn)
-                              rad_bt.click()
-                        var_cc=By.ID,"variant_cc"
-                        varints_cc=wait.until(EC.visibility_of_element_located(var_cc))
-                        varints_cc.click()
-                        var_choices=By.CSS_SELECTOR,"css-djn3hl"
-                        var_allchoices=wait.until(EC.presence_of_all_elements_located(var_choices))
-                        if var_allchoices:
-                              var_ch=random.choice(var_allchoices)
-                              var_ch.click()
+        radio=By.XPATH,"//input[@type='radio']"
+        radio_btn=self.wait.until(EC.presence_of_all_elements_located(radio))
+        if radio_btn:
+                rad_bt=random.choice(radio_btn)
+                rad_bt.click()                
+        var_cc=By.ID,"variant_cc"
+        varints_cc=self.wait.until(EC.presence_of_all_elements_located(var_cc))
+        if varints_cc:
+             v_click=random.choice(varints_cc)
+             v_click.click()
+        var_choices=By.XPATH,"//ul[@class='css-djn3hl']/li"
+        var_allchoices=self.wait.until(EC.presence_of_all_elements_located(var_choices))                
+        if var_allchoices:                
+                var_ch=random.choice(var_allchoices)
+                var_ch.click()                                                                
+
+                        
                               
     def health_prequote(self):
         def handle_relations():
