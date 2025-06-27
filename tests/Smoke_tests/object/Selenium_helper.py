@@ -263,19 +263,31 @@ class SeleniumHelper:
         """
         # Split the dob into day, month, year
         month_map = {
-            "January"or"Jan": 1,
-            "February"or"Feb": 2,
-            "March"or"Mar": 3,
-            "April"or"Apr": 4,
-            "May": 5,
-            "June"or"Jun": 6,
-            "July"or"Jul": 7,
-            "August"or"Aug": 8,
-            "September"or"Sep": 9,
-            "October"or"Oct": 10,
-            "November"or"Nov": 11,
-            "December"or"Dec": 12
-        }
+    "January": 1,
+    "Jan": 1,
+    "February": 2,
+    "Feb": 2,
+    "March": 3,
+    "Mar": 3,
+    "April": 4,
+    "Apr": 4,
+    "May": 5,
+    "June": 6,
+    "Jun": 6,
+    "July": 7,
+    "Jul": 7,
+    "August": 8,
+    "Aug": 8,
+    "September": 9,
+    "Sep": 9,
+    "October": 10,
+    "Oct": 10,
+    "November": 11,
+    "Nov": 11,
+    "December": 12,
+    "Dec": 12
+}
+
         
         day, month, year = dob.split('-')
 
@@ -289,6 +301,9 @@ class SeleniumHelper:
         # Navigate to the correct year
         current_month_year = self.driver.find_element(By.XPATH, "//div[@class='MuiBox-root css-7mv075']")
         current_month, current_year = current_month_year.text.split()
+        current_month_int = month_map[current_month]
+        self.log.info("donemap")
+        target_month_int = int(month)
 
         # Open the year dropdown
         year_select_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@class='MuiBox-root css-7mv075']/button)[2]")))
@@ -305,30 +320,16 @@ class SeleniumHelper:
         self.log.info("yer")
         time.sleep(4)
         # Wait for the calendar to update with the selected year
-        while current_month != month or current_year != year:
-            # Update the current displayed month and year
+        while current_month_int != target_month_int or current_year != year :
             
-
-                # Navigate to the correct month using next/previous buttons
-                current_month_year = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='MuiBox-root css-7mv075']")))
-                current_month, current_year = current_month_year.text.split()
-                self.log.info("done int")
-                
-                # Convert the month name to an integer using the month_map dictionary
-                current_month_int = month_map[current_month]
-                self.log.info("donemap")
-                target_month_int = int(month)
-                self.log.info(current_month_int)
-                self.log.info(target_month_int)
-                # Check if the current month is less than the target month or if the current year is less than the target year
                 if current_month_int < target_month_int:
                     # Click "Next" month button
-                    next_month_button = self.wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@class='MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1c69r7k'])[2]")))
+                    next_month_button = self.wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@class='MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1c69r7k'])[3]")))
                     next_month_button.click()
                     self.log.info('done')
-                elif current_month > target_month_int:
+                elif current_month_int > target_month_int:
                     # Click "Previous" month button
-                    prev_month_button = self.wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@class='MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1c69r7k'])[1]")))
+                    prev_month_button = self.wait.until(EC.presence_of_element_located((By.XPATH, "(//button[@class='MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary css-1c69r7k'])[2]")))
                     prev_month_button.click()
                     self.log.info("predone")
                 
@@ -345,6 +346,8 @@ class SeleniumHelper:
                 # If current month matches the target month, break the loop
                 if current_month_int == target_month_int:
                     break
+                    # Logging the current month and the target month to debug
+           
 
         # Wait for the days to be visible
         days = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[@class='react-datepicker__month']/div/div")))
