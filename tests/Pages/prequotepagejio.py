@@ -74,7 +74,8 @@ class QuotePage(BaseClass):
         date=self.wait.until(EC.visibility_of_all_elements_located((By.ID,"datepicker")))
         for da in date:
             da.click()
-            
+            SeleniumHelper.calander_picker(self,dob="21-05-2023")
+            cont.click()
 
         
         
