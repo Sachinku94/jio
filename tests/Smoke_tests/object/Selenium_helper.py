@@ -17,6 +17,7 @@ import requests
 import asyncio
 import aiohttp
 import time
+from datetime import datetime
 
 
 class SeleniumHelper:
@@ -290,6 +291,8 @@ class SeleniumHelper:
 
         
         day, month, year = dob.split('-')
+        current_datetime = datetime.now()
+        systerm_current_year = current_datetime.year
 
         # Find and click the calendar input field
         # calendar_field = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".evInputField .MuiInputBase-root .MuiIconButton-root")))
@@ -317,8 +320,17 @@ class SeleniumHelper:
             if ye.text == year:
                 ye.click()
                 break
+            if systerm_current_year ==  ye.text:
+                cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
+                cont.click()  
+
+
+
         self.log.info("yer")
         time.sleep(4)
+        
+            
+        
         # Wait for the calendar to update with the selected year
         while current_month_int != target_month_int or current_year != year :
             

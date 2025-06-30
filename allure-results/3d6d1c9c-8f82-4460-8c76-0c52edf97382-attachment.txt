@@ -1,5 +1,0 @@
-INFO     __init__:prequotepagejio.py:70 trupass
-INFO     __init__:Selenium_helper.py:305 donemap
-INFO     __init__:Selenium_helper.py:320 yer
-INFO     __init__:Selenium_helper.py:329 done
-INFO     __init__:Selenium_helper.py:329 done
