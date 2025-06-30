@@ -320,7 +320,7 @@ class SeleniumHelper:
             if ye.text == year:
                 ye.click()
                 break
-            if systerm_current_year ==  ye.text:
+            if systerm_current_year ==  year:
                 cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
                 cont.click()  
 

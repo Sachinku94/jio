@@ -20,6 +20,11 @@ class QuotePage(BaseClass):
         self.log = self.getLogger()
 
     def motor(self):
+        random_digits = f"{random.randint(0, 9999):04d}"  # Ensures it's zero-padded
+
+# Combine with your prefix
+        vehicle_number = f"MH00XX{random_digits}"
+
         drop_down = By.CSS_SELECTOR, ".css-t1oczc"
         self.wait.until(EC.presence_of_element_located(drop_down)).click()
 
@@ -31,7 +36,7 @@ class QuotePage(BaseClass):
                 break
 
         # Enter registration number and mobile number
-        self.driver.find_element(By.ID, "Enter car registration number").send_keys("MH01WG7452")
+        self.driver.find_element(By.ID, "Enter car registration number").send_keys(vehicle_number)
         self.driver.find_element(By.ID, "Enter mobile number").send_keys("7894566623")
 
         # Click the 'Get free quotes' button
