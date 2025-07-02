@@ -293,6 +293,7 @@ class SeleniumHelper:
         day, month, year = dob.split('-')
         current_datetime = datetime.now()
         systerm_current_year = current_datetime.year
+        self.log.info(type(systerm_current_year))
 
         # Find and click the calendar input field
         # calendar_field = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".evInputField .MuiInputBase-root .MuiIconButton-root")))
@@ -308,6 +309,7 @@ class SeleniumHelper:
         self.log.info("donemap")
         target_month_int = int(month)
 
+
         # Open the year dropdown
         year_select_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, "(//div[@class='MuiBox-root css-7mv075']/button)[2]")))
         year_select_button.click()
@@ -320,9 +322,10 @@ class SeleniumHelper:
             if ye.text == year:
                 ye.click()
                 break
-            if systerm_current_year ==  year:
-                cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
-                cont.click()  
+        if systerm_current_year==int(year):
+                cont = self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".css-1oizq70")))
+                cont.click()
+        time.sleep(6) 
 
 
 

@@ -94,7 +94,24 @@ class QuotePage(BaseClass):
             
             cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
             cont.click()    
+        Policies=self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,".css-1oizq70")))
+        Policies.click()
+        num_options = 10  # This is just an example. Adjust as necessary to match the number of options you expect.
 
+        # Generate the XPath dynamically using f-string formatting
+        options = self.driver.find_elements(By.XPATH, f"//li[starts-with(@id, 'Previous Insurer-autocomplete-option-') and number(@id) <= {num_options}]")
+
+        # Check if options exist to avoid IndexError
+        if options:
+            # Randomly select an option
+            random_option = random.choice(options)
+            
+            # Click on the selected option
+            random_option.click()
+        
+        cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Continue')]")))
+        cont.click() 
+        
         
         
                                                                        
