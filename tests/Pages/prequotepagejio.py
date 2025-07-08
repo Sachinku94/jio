@@ -11,6 +11,7 @@ import requests
 import random
 from Smoke_tests.object.Selenium_helper import SeleniumHelper
 import threading
+from selenium.webdriver.common.keys import Keys
 class QuotePage(BaseClass):
 
     def __init__(self, driver):
@@ -94,23 +95,43 @@ class QuotePage(BaseClass):
             
             cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
             cont.click()    
-        Policies=self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,".css-1oizq70")))
+
+        time.sleep(10)
+
+        close_popup=self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,".modal-scrollable .MuiPaper-root .modal-content .closePopup")))
+        close_popup.click()
+        Policies=self.wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,".css-f7qqsr .MuiInputBase-root .MuiAutocomplete-input")))
         Policies.click()
-        num_options = 10  # This is just an example. Adjust as necessary to match the number of options you expect.
 
-        # Generate the XPath dynamically using f-string formatting
-        options = self.driver.find_elements(By.XPATH, f"//li[starts-with(@id, 'Previous Insurer-autocomplete-option-') and number(@id) <= {num_options}]")
+        Policies.send_keys("Acko General")
+        time.sleep(1)  # Let dropdown populate
 
-        # Check if options exist to avoid IndexError
-        if options:
-            # Randomly select an option
-            random_option = random.choice(options)
+        # Step 3: Press DOWN arrow to highlight the first match (or keep sending if needed)
+        Policies.send_keys(Keys.ARROW_DOWN)
+        time.sleep(0.5)
+
+        # Step 4: Press ENTER to select
+        Policies.send_keys(Keys.ENTER)
+        
+
+
+
+        # num_options = 10  # This is just an example. Adjust as necessary to match the number of options you expect.
+
+        # # Generate the XPath dynamically using f-string formatting
+        # options = self.wait.until(EC.presence_of_element_located(((By.XPATH, f"//li[starts-with(@id, 'Previous Insurer-autocomplete-option-') and number(@id) <= {num_options}]"))))
+
+        # # Check if options exist to avoid IndexError
+        # if options:
+        #     # Randomly select an option
+        #     random_option = random.choice(options)
             
-            # Click on the selected option
-            random_option.click()
+        #     # Click on the selected option
+        #     random_option.click()
         
         cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Continue')]")))
         cont.click() 
+        
         
         
         
