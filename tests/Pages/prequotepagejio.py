@@ -132,6 +132,9 @@ class QuotePage(BaseClass):
         cont = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Continue')]")))
         cont.click() 
         
+
+        qyot = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[contains(text(),'Confirm')]")))
+        qyot.click() 
         
         
         
